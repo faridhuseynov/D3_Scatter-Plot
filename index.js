@@ -5,5 +5,4 @@ xhttp.open("GET", url, true);
 xhttp.send();
 xhttp.onload = () => {
   const dataset = JSON.parse(xhttp.responseText);
-  console.log(dataset);
 };
