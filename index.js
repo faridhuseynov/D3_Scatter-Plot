@@ -15,16 +15,15 @@ xhttp.onload = () => {
   //title element with id="title"
   d3.select("body").append("title").attr("id", "title").text("Scatter Plot");
 
-  const years = dataset.map((data) => data.Year);
-  
-  
+  const years = dataset.map((data) =>parseInt(data.Year));
+
   const xScale = d3
-  .scaleLinear()
-  .domain([d3.min(years), d3.max(years)])
-  .range([padding, width - padding]);
-  
+    .scaleLinear()
+    .domain([d3.min(years), d3.max(years)])
+    .range([padding, width - padding]);
+
   const xAxis = d3.axisBottom(xScale);
-  
+
   const svg = d3
     .select("#main")
     .append("svg")
@@ -33,9 +32,26 @@ xhttp.onload = () => {
 
   svg
     .append("g")
-    .attr("id","x-axis")
-    .attr("transform", "translate(0,"
-     + (height - padding) + ")")
+    .attr("id", "x-axis")
+    .attr("transform", "translate(0," + (height - padding) + ")")
     .call(xAxis);
 
+  const times = dataset.map((data) => {
+    var time = data.Time.split(":");
+    var hour = time[0];
+    var min = time[1];
+    return parseFloat(hour+"."+min);
+  });
+
+  console.log(times);
+  const yScale = d3.scaleLinear()
+  .domain([d3.min(times),d3.max(times)])
+  .range([padding, height-padding]);
+
+const yAxis = d3.axisLeft(yScale);
+
+svg.append("g")
+.attr("id","y-axis")
+.attr("transform","translate("+(padding)+",0)")
+.call(yAxis);
 };
