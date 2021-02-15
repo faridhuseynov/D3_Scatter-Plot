@@ -15,11 +15,11 @@ xhttp.onload = () => {
   //title element with id="title"
   d3.select("body").append("title").attr("id", "title").text("Scatter Plot");
 
-  const years = dataset.map((data) =>parseInt(data.Year));
+  const years = dataset.map((data) => parseInt(data.Year));
 
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(years), d3.max(years)])
+    .domain([d3.min(years)-1, d3.max(years)])
     .range([padding, width - padding]);
 
   const xAxis = d3.axisBottom(xScale);
@@ -36,22 +36,39 @@ xhttp.onload = () => {
     .attr("transform", "translate(0," + (height - padding) + ")")
     .call(xAxis);
 
-  const times = dataset.map((data) => {
-    var time = data.Time.split(":");
-    var hour = time[0];
-    var min = time[1];
-    return parseFloat(hour+"."+min);
-  });
-
+  //specify format of time to get
+  const specifier = "%M:%S";
+  const times = dataset.map((data) => d3.timeParse(specifier)(data.Time));
   console.log(times);
-  const yScale = d3.scaleLinear()
-  .domain([d3.min(times),d3.max(times)])
-  .range([padding, height-padding]);
+  const yScale = d3
+  .scaleTime()
+  .domain([d3.min(times), d3.max(times)])
+  .range([padding, height - padding]);
+  
+  const timesScaled = times.map(time=>yScale(time));
+  
+  const yAxis = d3
+    .axisLeft(yScale)
+    .tickValues(times)
+    .tickFormat((time) => d3.timeFormat(specifier)(time));
 
-const yAxis = d3.axisLeft(yScale);
+  svg
+    .append("g")
+    .attr("id", "y-axis")
+    .attr("transform", "translate(" + padding + ",0)")
+    .call(yAxis);
 
-svg.append("g")
-.attr("id","y-axis")
-.attr("transform","translate("+(padding)+",0)")
-.call(yAxis);
+  svg.selectAll("circle")
+  .data(dataset)
+  .enter()
+  .append("circle")
+  .attr("cx",d=>{
+      console.log(xScale(d.Year));
+      return xScale(d.Year);
+    })
+  .attr("cy",(d,i)=>{
+      console.log(timesScaled[i]);
+    return (timesScaled[i]);
+})
+  .attr("r",(d)=>5);
 };
