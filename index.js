@@ -19,7 +19,7 @@ xhttp.onload = () => {
 
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(years) - 1, d3.max(years)])
+    .domain([d3.min(years) - 1, d3.max(years)+1])
     .range([padding, width - padding]);
 
   const xAxis = d3.axisBottom(xScale);
@@ -64,8 +64,10 @@ xhttp.onload = () => {
     .append("circle")
     .attr("cx", (d) => xScale(d.Year))
     .attr("cy", (d, i) => timesScaled[i])
-    .attr("r", (d) => 5)
+    .attr("r", (d) => 6)
     .attr("class","dot")
-    .attr("fill",d=>(d.Doping==""?"orange":"blue"))
+    .attr("fill",d=>(d.Doping==""?"#FF993E":"#4C92C3"))
+    .attr("data-xvalue",d=> (parseInt(d.Year)))
+    .attr("data-yvalue",d=>(new Date(d.Time)).getTime())
     ;
 };
