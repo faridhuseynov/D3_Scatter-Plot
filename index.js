@@ -70,4 +70,35 @@ xhttp.onload = () => {
     .attr("data-xvalue",d=> (parseInt(d.Year)))
     .attr("data-yvalue",d=>(new Date(d.Time)).getTime())
     ;
-};
+
+  svg
+    .append("rect")
+    .attr("x",width-padding)
+    .attr("y",height/2)
+    .attr("height",15)
+    .attr("width",15)
+    .attr("fill","#FF993E")
+    .style("border","20px");
+
+svg
+    .append("text")
+    .attr("x",width-2.7*padding)
+    .attr("y",height/2+10)
+    .text("No doping allegations")
+
+    svg
+    .append("rect")
+    .attr("x",width-padding)
+    .attr("y",height/2+20)
+    .attr("height",15)
+    .attr("width",15)
+    .attr("fill","#4C92C3")
+    .style("border","20px");
+    
+    svg
+    .append("text")
+    .attr("x",width-2.7*padding)
+    .attr("y",height/2+30)
+    .text("Rides with doping allegations")
+
+  };
