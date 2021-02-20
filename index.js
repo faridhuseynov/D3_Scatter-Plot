@@ -19,10 +19,11 @@ xhttp.onload = () => {
 
   const xScale = d3
     .scaleLinear()
-    .domain([d3.min(years) - 1, d3.max(years)+1])
+    .domain([d3.min(years) - 1, d3.max(years) + 1])
     .range([padding, width - padding]);
 
-  const xAxis = d3.axisBottom(xScale);
+  const dateSpecifier = "y";
+  const xAxis = d3.axisBottom(xScale).tickFormat(year => d3.format(dateSpecifier)(year));
 
   const svg = d3
     .select("#main")
@@ -37,8 +38,8 @@ xhttp.onload = () => {
     .call(xAxis);
 
   //specify format of time to get
-  const specifier = "%M:%S";
-  const times = dataset.map((data) => d3.timeParse(specifier)(data.Time));
+  const timeSpecifier = "%M:%S";
+  const times = dataset.map((data) => d3.timeParse(timeSpecifier)(data.Time));
   const yScale = d3
     .scaleTime()
     .domain([d3.min(times), d3.max(times)])
@@ -48,8 +49,7 @@ xhttp.onload = () => {
 
   const yAxis = d3
     .axisLeft(yScale)
-    .tickValues(times)
-    .tickFormat((time) => d3.timeFormat(specifier)(time));
+    .tickFormat((time) => d3.timeFormat(timeSpecifier)(time));
 
   svg
     .append("g")
@@ -67,7 +67,11 @@ xhttp.onload = () => {
     .attr("r", (d) => 6)
     .attr("class", "dot")
     .attr("fill", d => (d.Doping == "" ? "#FF993E" : "#4C92C3"))
-    .attr("data-xvalue", d => (parseInt(d.Year)))
+    .attr("data-xvalue", d => {
+      console.log(d.Year);
+      console.log(xScale(d.Year));
+      return ((d.Year))
+    })
     .attr("data-yvalue", d => {
       var time = (d.Time).split(":");
       var min = time[0];
@@ -76,36 +80,37 @@ xhttp.onload = () => {
       return date;
     });
 
+
   svg
     .append("rect")
-    .attr("x",width-padding)
-    .attr("y",height/2)
-    .attr("height",15)
-    .attr("width",15)
-    .attr("fill","#FF993E")
-    .attr("class","legend")
-    .style("border","20px");
+    .attr("x", width - padding)
+    .attr("y", height / 2)
+    .attr("height", 15)
+    .attr("width", 15)
+    .attr("fill", "#FF993E")
+    .attr("class", "legend")
+    .style("border", "20px");
 
-svg
+  svg
     .append("text")
-    .attr("x",width-2.7*padding)
-    .attr("y",height/2+10)
+    .attr("x", width - 2.7 * padding)
+    .attr("y", height / 2 + 10)
     .text("No doping allegations")
 
-    svg
+  svg
     .append("rect")
-    .attr("x",width-padding)
-    .attr("y",height/2+20)
-    .attr("height",15)
-    .attr("width",15)
-    .attr("fill","#4C92C3")
-    .attr("class","legend")
-    .style("border","20px");
-    
-    svg
+    .attr("x", width - padding)
+    .attr("y", height / 2 + 20)
+    .attr("height", 15)
+    .attr("width", 15)
+    .attr("fill", "#4C92C3")
+    .attr("class", "legend")
+    .style("border", "20px");
+
+  svg
     .append("text")
-    .attr("x",width-2.7*padding)
-    .attr("y",height/2+30)
+    .attr("x", width - 2.7 * padding)
+    .attr("y", height / 2 + 30)
     .text("Rides with doping allegations")
 
-  };
+};
