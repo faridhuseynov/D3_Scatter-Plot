@@ -80,8 +80,15 @@ xhttp.onload = () => {
       return date;
     });
 
-
+    // svg
+    //   .append("rect")
+    //   .attr("id","legend")
+    //   .attr("x",width-padding)
+    //   .attr("y",height/2)
+    //   .attr("height",50)
+    //   .attr("width",50);
   svg
+    // .selectAll("#legend")
     .append("rect")
     .attr("x", width - padding)
     .attr("y", height / 2)
@@ -92,12 +99,14 @@ xhttp.onload = () => {
     .style("border", "20px");
 
   svg
+  // .selectAll("#legend")
     .append("text")
-    .attr("x", width - 2.7 * padding)
+    .attr("x", width - 2.4 * padding)
     .attr("y", height / 2 + 10)
     .text("No doping allegations")
 
   svg
+  // .selectAll("#legend")
     .append("rect")
     .attr("x", width - padding)
     .attr("y", height / 2 + 20)
@@ -108,8 +117,9 @@ xhttp.onload = () => {
     .style("border", "20px");
 
   svg
+  // .selectAll("#legend")
     .append("text")
-    .attr("x", width - 2.7 * padding)
+    .attr("x", width - 2.86 * padding)
     .attr("y", height / 2 + 30)
     .text("Rides with doping allegations")
 
