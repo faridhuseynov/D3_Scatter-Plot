@@ -65,11 +65,16 @@ xhttp.onload = () => {
     .attr("cx", (d) => xScale(d.Year))
     .attr("cy", (d, i) => timesScaled[i])
     .attr("r", (d) => 6)
-    .attr("class","dot")
-    .attr("fill",d=>(d.Doping==""?"#FF993E":"#4C92C3"))
-    .attr("data-xvalue",d=> (parseInt(d.Year)))
-    .attr("data-yvalue",d=>(new Date(d.Time)).getTime())
-    ;
+    .attr("class", "dot")
+    .attr("fill", d => (d.Doping == "" ? "#FF993E" : "#4C92C3"))
+    .attr("data-xvalue", d => (parseInt(d.Year)))
+    .attr("data-yvalue", d => {
+      var time = (d.Time).split(":");
+      var min = time[0];
+      var secs = time[1];
+      var date = new Date(0, 0, 0, 0, min, secs, 0);
+      return date;
+    });
 
   svg
     .append("rect")
