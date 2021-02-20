@@ -40,6 +40,7 @@ xhttp.onload = () => {
   //specify format of time to get
   const timeSpecifier = "%M:%S";
   const times = dataset.map((data) => d3.timeParse(timeSpecifier)(data.Time));
+  console.log(times);
   const yScale = d3
     .scaleTime()
     .domain([d3.min(times), d3.max(times)])
@@ -49,7 +50,9 @@ xhttp.onload = () => {
 
   const yAxis = d3
     .axisLeft(yScale)
-    .tickFormat((time) => d3.timeFormat(timeSpecifier)(time));
+    .tickValues(times.filter(t=>t.getSeconds()%15==0))
+    .tickFormat((time) => 
+    d3.timeFormat(timeSpecifier)(time));
 
   svg
     .append("g")
