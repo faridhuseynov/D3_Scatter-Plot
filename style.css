@@ -12,6 +12,8 @@ body{
     stroke-width: 1;
 }
 
-#main {
-    width: auto;
+.legend{
+    border: 1px solid black;
+    stroke: black;
+    stroke-width: 2;
 }

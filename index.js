@@ -78,6 +78,7 @@ xhttp.onload = () => {
     .attr("height",15)
     .attr("width",15)
     .attr("fill","#FF993E")
+    .attr("class","legend")
     .style("border","20px");
 
 svg
@@ -93,6 +94,7 @@ svg
     .attr("height",15)
     .attr("width",15)
     .attr("fill","#4C92C3")
+    .attr("class","legend")
     .style("border","20px");
     
     svg
