@@ -66,6 +66,18 @@ xhttp.onload = () => {
     .attr("class", "tooltip")				
     .style("opacity", "0");
 
+    // Y-axis description
+    svg.append("text").text("Time in Minutes")
+    .style("font-size","20px")    
+    .attr("transform","translate(30,130) rotate(-90)")
+    .style("text-anchor","end");
+
+    // X-axis description
+    svg.append("text").text("Years")
+    .attr("transform","translate("+(width/2)+","+(height-30)+")")
+    .attr("font-size","20px")
+    .style("text-anchor","end");
+
   svg
     .selectAll("circle")
     .data(dataset)
