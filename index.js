@@ -50,14 +50,14 @@ xhttp.onload = () => {
 
   const yAxis = d3
     .axisLeft(yScale)
-    .tickValues(times.filter(t=>t.getSeconds()%15==0))
-    .tickFormat((time) => 
-    d3.timeFormat(timeSpecifier)(time));
+    // .tickValues(times.filter(t=>t.getSeconds()%15==0))
+    .tickFormat((time) =>
+      (d3.timeFormat(timeSpecifier)(time)));
 
   svg
     .append("g")
     .attr("id", "y-axis")
-    .attr("transform", "translate(" + padding + ",0)")
+    .attr("transform", "translate(" + (padding) + ",0)")
     .call(yAxis);
 
   svg
@@ -83,47 +83,40 @@ xhttp.onload = () => {
       return date;
     });
 
-    // svg
-    //   .append("rect")
-    //   .attr("id","legend")
-    //   .attr("x",width-padding)
-    //   .attr("y",height/2)
-    //   .attr("height",50)
-    //   .attr("width",50);
-  svg
-    // .selectAll("#legend")
+  const legendBlock = svg.append("g").attr("id", "legend");
+
+  const legend = legendBlock
+    .append("g")
+    .attr("transform", "translate(0,10)");
+
+  legend
     .append("rect")
     .attr("x", width - padding)
     .attr("y", height / 2)
     .attr("height", 15)
     .attr("width", 15)
-    .attr("fill", "#FF993E")
-    .attr("class", "legend")
-    .style("border", "20px");
+    .attr("fill", "#FF993E");
 
-  svg
-  // .selectAll("#legend")
+  legend
     .append("text")
-    .attr("x", width - 2.4 * padding)
+    .attr("x", width - padding - 10)
     .attr("y", height / 2 + 10)
     .text("No doping allegations")
+    .style("text-anchor", "end");
 
-  svg
-  // .selectAll("#legend")
+  legend
     .append("rect")
     .attr("x", width - padding)
     .attr("y", height / 2 + 20)
     .attr("height", 15)
     .attr("width", 15)
     .attr("fill", "#4C92C3")
-    .attr("class", "legend")
-    .style("border", "20px");
 
-  svg
-  // .selectAll("#legend")
+  legend
     .append("text")
-    .attr("x", width - 2.86 * padding)
+    .attr("x", width - padding - 10)
     .attr("y", height / 2 + 30)
     .text("Rides with doping allegations")
+    .style("text-anchor", "end");
 
 };
