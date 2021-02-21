@@ -60,7 +60,7 @@ xhttp.onload = () => {
     .domain([d3.min(times), d3.max(times)])
     .range([padding, height - padding]);
 
-  const timesScaled = times.map((time) => yScale(time));
+  const timesScaled = times.map((time) => yScale(time)*1000/1000);
 
   const yAxis = d3
     .axisLeft(yScale)
@@ -109,7 +109,7 @@ xhttp.onload = () => {
       var time = (d.Time).split(":");
       var min = time[0];
       var secs = time[1];
-      var date = new Date(0, 0, 0, 0, min, secs, 0);
+      var date = new Date(1970, 0, 1, 1, min, secs);
       return date;
     })
     .on("mouseover", (event, d) => {
