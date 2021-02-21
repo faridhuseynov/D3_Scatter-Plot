@@ -28,6 +28,7 @@ xhttp.onload = () => {
   const svg = d3
     .select("#main")
     .append("svg")
+    .attr("id","canvas")
     .attr("width", width)
     .attr("height", height);
 
@@ -40,7 +41,6 @@ xhttp.onload = () => {
   //specify format of time to get
   const timeSpecifier = "%M:%S";
   const times = dataset.map((data) => d3.timeParse(timeSpecifier)(data.Time));
-  console.log(times);
   const yScale = d3
     .scaleTime()
     .domain([d3.min(times), d3.max(times)])
@@ -60,6 +60,12 @@ xhttp.onload = () => {
     .attr("transform", "translate(" + (padding) + ",0)")
     .call(yAxis);
 
+  // create the div for tooltip
+  const div = d3.selectAll("body")
+    .append("div")	
+    .attr("class", "tooltip")				
+    .style("opacity", "0");
+
   svg
     .selectAll("circle")
     .data(dataset)
@@ -71,8 +77,6 @@ xhttp.onload = () => {
     .attr("class", "dot")
     .attr("fill", d => (d.Doping == "" ? "#FF993E" : "#4C92C3"))
     .attr("data-xvalue", d => {
-      console.log(d.Year);
-      console.log(xScale(d.Year));
       return ((d.Year))
     })
     .attr("data-yvalue", d => {
@@ -81,7 +85,25 @@ xhttp.onload = () => {
       var secs = time[1];
       var date = new Date(0, 0, 0, 0, min, secs, 0);
       return date;
-    });
+    })
+    .on("mouseover",(event,d)=>{
+      div.transition()
+        .duration(200)
+        .style("opacity", "0.9")
+        .attr("data-year",d.Year)
+        .attr("id","tooltip");
+      div.html(d.Name+": "+d.Nationality+"<br/>"
+      +"Year: "+d.Year
+      +" Time: "+d.Time+"<br/><br/>"
+      +d.Doping)
+      .style("left",(event.pageX+20)+"px")
+      .style("top",(event.pageY-20)+"px");
+    })
+    .on("mouseout", d=> {		
+      div.transition()		
+          .duration(500)		
+          .style("opacity", "0");	
+  });
 
   const legendBlock = svg.append("g").attr("id", "legend");
 

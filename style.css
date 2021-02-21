@@ -11,3 +11,13 @@ body{
     stroke: black;
     stroke-width: 1;
 }
+
+#canvas {
+
+}
+.tooltip {
+    position: absolute;
+    background-color: #aacee7;
+    padding: 5px;
+    border-radius: 5px;
+}
