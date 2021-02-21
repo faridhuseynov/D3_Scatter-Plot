@@ -28,9 +28,23 @@ xhttp.onload = () => {
   const svg = d3
     .select("#main")
     .append("svg")
-    .attr("id","canvas")
+    .attr("id", "canvas")
     .attr("width", width)
     .attr("height", height);
+
+    svg.append("text")
+    .text("Doping in Professional Bicycle Racing")
+    .attr("x",width-1.5*padding)
+    .attr("y",padding-40)
+    .style("text-anchor","end")
+    .style("font-size","35px");
+
+    svg.append("text")
+    .text("35 Fastest times up Alpe d'Huez")
+    .attr("x",width-3*padding)
+    .attr("y",padding)
+    .style("text-anchor","end")
+    .style("font-size","25px");
 
   svg
     .append("g")
@@ -62,21 +76,21 @@ xhttp.onload = () => {
 
   // create the div for tooltip
   const div = d3.selectAll("body")
-    .append("div")	
-    .attr("class", "tooltip")				
+    .append("div")
+    .attr("class", "tooltip")
     .style("opacity", "0");
 
-    // Y-axis description
-    svg.append("text").text("Time in Minutes")
-    .style("font-size","20px")    
-    .attr("transform","translate(30,130) rotate(-90)")
-    .style("text-anchor","end");
+  // Y-axis description
+  svg.append("text").text("Time in Minutes")
+    .style("font-size", "20px")
+    .attr("transform", "translate(30,130) rotate(-90)")
+    .style("text-anchor", "end");
 
-    // X-axis description
-    svg.append("text").text("Years")
-    .attr("transform","translate("+(width/2)+","+(height-30)+")")
-    .attr("font-size","20px")
-    .style("text-anchor","end");
+  // X-axis description
+  svg.append("text").text("Years")
+    .attr("transform", "translate(" + (width / 2) + "," + (height - 30) + ")")
+    .attr("font-size", "20px")
+    .style("text-anchor", "end");
 
   svg
     .selectAll("circle")
@@ -98,24 +112,24 @@ xhttp.onload = () => {
       var date = new Date(0, 0, 0, 0, min, secs, 0);
       return date;
     })
-    .on("mouseover",(event,d)=>{
+    .on("mouseover", (event, d) => {
       div.transition()
         .duration(200)
         .style("opacity", "0.9")
-        .attr("data-year",d.Year)
-        .attr("id","tooltip");
-      div.html(d.Name+": "+d.Nationality+"<br/>"
-      +"Year: "+d.Year
-      +" Time: "+d.Time+"<br/><br/>"
-      +d.Doping)
-      .style("left",(event.pageX+20)+"px")
-      .style("top",(event.pageY-20)+"px");
+        .attr("data-year", d.Year)
+        .attr("id", "tooltip");
+      div.html(d.Name + ": " + d.Nationality + "<br/>"
+        + "Year: " + d.Year
+        + " Time: " + d.Time + "<br/><br/>"
+        + d.Doping)
+        .style("left", (event.pageX + 20) + "px")
+        .style("top", (event.pageY - 20) + "px");
     })
-    .on("mouseout", d=> {		
-      div.transition()		
-          .duration(500)		
-          .style("opacity", "0");	
-  });
+    .on("mouseout", d => {
+      div.transition()
+        .duration(500)
+        .style("opacity", "0");
+    });
 
   const legendBlock = svg.append("g").attr("id", "legend");
 
