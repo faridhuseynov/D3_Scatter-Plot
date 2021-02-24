@@ -62,9 +62,20 @@ xhttp.onload = () => {
 
   const timesScaled = times.map((time) => yScale(time)*1000/1000);
 
+  const regularLabels = (timeExtent) => {
+    // arr like [min Date, max Date]
+    // step in milliseconds
+    const step = 1000;
+    const labels = [];
+    for (const d=timeExtent[0]; d<=timeExtent[1]; d.setTime(d.getTime() + step)) {
+      if (d.getSeconds() % 15 == 0) labels.push(d.getTime());
+    }
+    return labels;
+  }
+
   const yAxis = d3
     .axisLeft(yScale)
-    // .tickValues(times.filter(t=>t.getSeconds()%15==0))
+    .tickValues(regularLabels(d3.extent(times)))
     .tickFormat((time) =>
       (d3.timeFormat(timeSpecifier)(time)));
 
